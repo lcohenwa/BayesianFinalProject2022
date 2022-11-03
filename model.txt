@@ -1,0 +1,14 @@
+data {
+  int<lower=2> K; // output bins
+  int<lower=0> N; // sample count
+  int<lower=1> D; // covariate count
+  vector[K] y[N];
+  row_vector[D] x[N]; // not totally sure why this is a row vector, but that's in the example
+}
+parameters {
+  vector[D] beta; // multipliers
+  ordered[K-1] c; // arbitrary bin edges
+}
+model {
+  y ~ ordered_logistic_lpmf(x[n] * beta, c); // ordered categorical distribution
+}
