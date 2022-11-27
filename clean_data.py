@@ -10,6 +10,9 @@ def clean_data(path):
     # Load data
     in_data = pd.read_csv(path)
 
+    # Make relations
+    in_data['daxslope'] = in_data['DA(sqmi)'] * in_data['slope(m/m)']
+
     # Filter
     # Filter out all lakes, reservoirs, etc
     in_data = in_data[in_data['waterbody'] != 1]
@@ -23,12 +26,12 @@ def clean_data(path):
 
     # Transform
     # Log transform some variables
-    log_transform_list = ['DA(sqmi)', 'slope(m/m)', 'PK0_2_width', 'PK50_width', 'bkf_width_HAND', 'CH_V_Q500', 'OB_V_Q500','CHSSPQ2', 'OBSSPQ2']
+    log_transform_list = ['daxslope', 'DA(sqmi)', 'slope(m/m)', 'PK0_2_width', 'PK50_width', 'bkf_width_HAND', 'CH_V_Q500', 'OB_V_Q500','CHSSPQ2', 'OBSSPQ2']
     for col in log_transform_list:
         in_data[col] = np.log10(in_data[col])
 
     # Normalize some variables
-    normalize_list = ['DA(sqmi)', 'slope(m/m)', 'PK0_2_width', 'PK50_width', 'bkf_width_HAND', 'CH_V_Q500', 'OB_V_Q500','CHSSPQ2', 'OBSSPQ2']
+    normalize_list = ['daxslope', 'DA(sqmi)', 'slope(m/m)', 'PK0_2_width', 'PK50_width', 'bkf_width_HAND', 'CH_V_Q500', 'OB_V_Q500','CHSSPQ2', 'OBSSPQ2']
     for col in normalize_list:
         mean = in_data[col].mean()
         in_data[col] = [i - mean for i in in_data[col]]
@@ -40,6 +43,9 @@ def clean_data_norm01(path):
     """ Cleans data, but instead of standard normal normalizing, it normalizes 0 to 1 """
     # Load data
     in_data = pd.read_csv(path)
+
+    # Make relations
+    in_data['daxslope'] = in_data['DA(sqmi)'] * in_data['slope(m/m)']
 
     # Filter
     # Filter out all lakes, reservoirs, etc
@@ -55,13 +61,13 @@ def clean_data_norm01(path):
 
     # Transform
     # Log transform some variables
-    log_transform_list = ['DA(sqmi)', 'slope(m/m)', 'PK0_2_width', 'PK50_width', 'bkf_width_HAND', 'CH_V_Q500',
+    log_transform_list = ['daxslope', 'DA(sqmi)', 'slope(m/m)', 'PK0_2_width', 'PK50_width', 'bkf_width_HAND', 'CH_V_Q500',
                           'OB_V_Q500', 'CHSSPQ2', 'OBSSPQ2']
     for col in log_transform_list:
         in_data[col] = np.log10(in_data[col])
 
     # Normalize some variables
-    normalize_list = ['DA(sqmi)', 'slope(m/m)', 'PK0_2_width', 'PK50_width', 'bkf_width_HAND', 'CH_V_Q500', 'OB_V_Q500',
+    normalize_list = ['daxslope', 'DA(sqmi)', 'slope(m/m)', 'PK0_2_width', 'PK50_width', 'bkf_width_HAND', 'CH_V_Q500', 'OB_V_Q500',
                       'CHSSPQ2', 'OBSSPQ2', 'Percent Cohesive', 'Percent Mixed', 'Percent Noncohesive', 'Average Depth To Bedrock']
     for col in normalize_list:
         max = in_data[col].max()
@@ -74,4 +80,4 @@ def clean_data_norm01(path):
 
 
 if __name__ == '__main__':
-    clean_data_norm01(IN_PATH)
+    clean_data(IN_PATH)

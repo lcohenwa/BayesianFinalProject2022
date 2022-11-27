@@ -1,7 +1,9 @@
 from cmdstanpy import CmdStanModel
 import numpy as np
+import pandas as pd
 import os
 import matplotlib.pyplot as plt
+import arviz as az
 
 
 def dummy_data():
@@ -41,4 +43,48 @@ def dummy_data():
     ax.set_ylabel('Cumulative Probability')
     plt.show()
 
-dummy_data()
+def prior_predictive_dummy():
+    stan_file = os.path.join(os.getcwd(), 'prior_predictive.stan')
+
+    model = CmdStanModel(stan_file=stan_file)
+    k = 7
+    n = 100
+    d = 1
+    x = np.ones(int(n / 2))
+    x = np.append(x, x * 2)[:, np.newaxis]
+
+    data = {'K': k, 'N': n, 'D': d, 'x': x}
+
+    fit = model.sample(data=data)
+    summary = fit.summary()
+
+    az.plot_trace(fit)
+    plt.show()
+
+def prior_predictive_real():
+    data_path = 'all_basins_all_data_11-2-22_cleaned.csv'
+    data = pd.read_csv(data_path)
+
+    stan_file = os.path.join(os.getcwd(), 'prior_predictive.stan')
+
+    model = CmdStanModel(stan_file=stan_file)
+    k = 7
+    n = len(data)
+    d = 1
+    x = data['daxslope'].to_numpy()[:, np.newaxis]
+
+    data = {'K': k, 'N': n, 'D': d, 'x': x}
+
+    fit = model.sample(data=data)
+    summary = fit.summary()
+    print(summary)
+
+    az.plot_trace(fit)
+    plt.title('Prior Predictive Check')
+    plt.savefig('prior_predictive.png')
+    plt.show()
+
+
+
+
+prior_predictive_real()
