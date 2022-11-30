@@ -15,7 +15,7 @@ parameters {
 }
 
 model {
-  c ~ normal(0, 2.3);
+  c ~ normal(0, 1.8);
   beta ~ normal(0, 1);
   if (do_prior_predictive != 1) {
     for (n in 1:N_train) {
