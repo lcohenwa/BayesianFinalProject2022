@@ -15,7 +15,7 @@ def plot_rmse_by_bin(df):
     rmse = df[measured_cols].to_numpy() - df[predicted_cols].to_numpy()
     rmse = np.square(rmse)
     rmse = np.sum(rmse, axis=0) / rmse.shape[0]
-    print(f'Total RMSE = {np.sqrt(np.sum(rmse))}')
+    print(f'Total RMSE = {np.sqrt(np.sum(rmse) / len(rmse))}')
     rmse = np.sqrt(rmse)
 
     fig, ax = plt.subplots()
