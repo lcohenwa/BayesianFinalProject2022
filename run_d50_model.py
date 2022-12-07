@@ -25,7 +25,7 @@ def run_training(train_path, test_path, stan_path):
                     'q500_width', 'confinement', 'Percent Cohesive', 'Percent Mixed',
                     'Percent Noncohesive', 'Percent Null', 'Average Depth To Bedrock']
 
-    data_cols = ['d50']
+    data_col = 'd50'
 
     n_train = len(train_data)
     n_test = len(test_data)
@@ -33,20 +33,25 @@ def run_training(train_path, test_path, stan_path):
 
     # Feed data into stan model
     x_train = train_data[covariate_cols].to_numpy()
-    y_train = train_data[data_cols].to_numpy()
+    y_train = train_data[data_col].to_numpy() 
+
     x_test = test_data[covariate_cols].to_numpy()
     data = {'N_test': n_test, 'N_train': n_train, 'D': d, 'x_train': x_train, 'y_train': y_train, 'x_test': x_test}
 
     model = CmdStanModel(stan_file=stan_path)
     fit = model.sample(data=data, output_dir=SAMPLE_PATH)
     print(fit)
-    summary = fit.summary()
+    
+    """
+    summary = az.summary(fit)
     summary.to_csv('summary.csv')
     print(summary)
-
+  
     az.plot_trace(fit)
     plt.show()
-
+    """
+    
+    return fit
 
 if __name__ == '__main__':
     run_training(TRAIN_PATH, TEST_PATH, STAN_PATH)
