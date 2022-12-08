@@ -20,7 +20,7 @@ def run_training(train_path, test_path, stan_path):
     train_data = pd.read_csv(train_path)
     test_data = pd.read_csv(test_path)
 
-    covariate_cols = ['daxslope']
+    covariate_cols = ['daxslope', 'DA(sqmi)', 'slope(m/m)', 'daxslope', 'bkf_width_HAND', 'q2_width', 'q500_width', 'confinement', 'Percent Cohesive', 'Percent Mixed', 'Percent Noncohesive', 'Percent Null', 'Average Depth To Bedrock']
     data_cols = ['SiltOrSmal', 'Sand', 'FineGravel', 'CourseGrav', 'Cobble', 'Boulder', 'Bedrock']
 
     k = len(data_cols)
@@ -92,5 +92,5 @@ def run_dummy():
 
 
 if __name__ == '__main__':
-    #run_training(TRAIN_PATH, TEST_PATH, STAN_PATH)
-    run_dummy()
+    run_training(TRAIN_PATH, TEST_PATH, STAN_PATH)
+    #run_dummy()
