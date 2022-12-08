@@ -79,7 +79,6 @@ def run_dummy():
     y_train = train_data[data_cols].to_numpy()
     x_test = test_data[covariate_cols].to_numpy()
     data = {'K': k, 'N_test': n_test, 'N_train': n_train, 'D': d, 'x_train': x_train, 'y_train': y_train, 'x_test': x_test, 'do_prior_predictive': 0}
-    data['y_train_2'] = y_train
 
     model = CmdStanModel(stan_file=stan_path)
     fit = model.sample(data=data, output_dir=sample_path, show_console=False, chains=4)
