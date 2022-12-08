@@ -5,7 +5,7 @@ import os
 
 TESTING_PATH = os.path.join(os.getcwd(), 'testing.csv')
 #STAN_PATH = r'C:\Users\Kensf\PycharmProjects\Geospatial_Hydrology\bayesian_stats\project\BayesianFinalProject2022\model_testo3938gvt'
-STAN_PATH = os.path.join(os.getcwd(), 'stan_samples_no_m')
+STAN_PATH = os.path.join(os.getcwd(), 'stan_samples')
 
 model = cmdstanpy.from_csv(STAN_PATH)
 draws = model.draws_pd()
@@ -24,4 +24,4 @@ testing_df = pd.read_csv(TESTING_PATH)
 for b in range(7):
     testing_df[f'pred{b}'] = summary_histograms[:, b]
 
-testing_df.to_csv(os.path.join(os.getcwd(), 'testing_results_no_m.csv'))
+testing_df.to_csv(os.path.join(os.getcwd(), 'testing_results.csv'))
