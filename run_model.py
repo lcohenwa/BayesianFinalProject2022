@@ -20,7 +20,9 @@ def run_training(train_path, test_path, stan_path):
     train_data = pd.read_csv(train_path)
     test_data = pd.read_csv(test_path)
 
-    covariate_cols = ['daxslope', 'DA(sqmi)', 'slope(m/m)', 'daxslope', 'bkf_width_HAND', 'q2_width', 'q500_width', 'confinement', 'Percent Cohesive', 'Percent Mixed', 'Percent Noncohesive', 'Percent Null', 'Average Depth To Bedrock']
+    covariate_cols = ['daxslope', 'DA(sqmi)', 'slope(m/m)', 'bkf_width_HAND', 'q2_width', 'q500_width', 'confinement', 'Percent Cohesive', 'Percent Mixed', 'Percent Noncohesive', 'Percent Null', 'Average Depth To Bedrock']
+    covariate_cols = ['daxslope', 'DA(sqmi)', 'slope(m/m)', 'bkf_width_HAND', 'q500_width', 'Percent Cohesive', 'Average Depth To Bedrock']
+    #covariate_cols = ['daxslope']
     data_cols = ['SiltOrSmal', 'Sand', 'FineGravel', 'CourseGrav', 'Cobble', 'Boulder', 'Bedrock']
 
     k = len(data_cols)
@@ -45,8 +47,9 @@ def run_training(train_path, test_path, stan_path):
     summary.to_csv('summary.csv')
     print(summary)
 
-    az.plot_trace(fit)
-    plt.show()
+    #az.plot_trace(fit)
+    #plt.show()
+
 
 def run_dummy():
     train_path = 'training - fake.csv'
